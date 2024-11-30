@@ -2,10 +2,6 @@
 
 set -e
 
-lowercase(){
-    echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
-}
-
 OS=`uname`
 FLEX="lib/jflex-full-1.9.1.jar"
 CUP="lib/java-cup-11b.jar"
@@ -21,23 +17,14 @@ fi
 
 if [ "$1" = "etapa1" ]; then
 	mkdir -p build
-	java -jar $FLEX -d build src/tinyc.flex
-	java -jar $CUP -destdir build -parser Parser src/tinyc.cup
-	javac -cp "$CLASSPATH" -d build src/Main.java
 fi
 
 if [ "$1" = "etapa2" ]; then
 	mkdir -p build
-	java -jar $FLEX -d build src/tinyc.flex
-	java -jar $CUP -destdir build -parser Parser src/tinyc.cup
-	javac -cp "$CLASSPATH" -d build src/Main.java
 fi
 
 if [ "$1" = "etapa3" ]; then
 	mkdir -p build
-	java -jar $FLEX -d build src/tinyc.flex
-	java -jar $CUP -destdir build -parser Parser src/tinyc.cup
-	javac -cp "$CLASSPATH" -d build src/Main.java
 fi
 
 if [ "$1" = "example" ]; then

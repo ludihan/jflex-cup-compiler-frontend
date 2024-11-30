@@ -15,7 +15,7 @@ fi
 etapa1() {
     java -jar $FLEX -d build src/etapa1_scanner.flex
     javac -cp "$CLASSPATH" -d build src/Etapa1.java
-	java -cp "$CLASSPATH" Etapa1
+	java -cp "$CLASSPATH" Etapa1 input/input_etapa1.tinyc
 }
 
 etapa2() {

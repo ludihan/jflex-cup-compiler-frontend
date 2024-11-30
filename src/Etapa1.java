@@ -3,21 +3,24 @@ import java.io.*;
 public class Etapa1 {
     public static void main(String[] args) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            Scanner scanner = new Scanner(reader);
-            Parser parser = new Parser(scanner);
-
-            System.out.println("Enter expressions (end with semicolon ';'):");
-
-            while (true) {
-                System.out.print("> ");
-                String input = reader.readLine();
-                if (input == null || input.equalsIgnoreCase("exit")) break;
-
-                // Feed input to the scanner
-                scanner.yyreset(new StringReader(input));
-                parser.parse();
+            FileReader fileReader = new FileReader(args[0]);
+            
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            System.out.println("FILE:");
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
             }
+            bufferedReader.close();
+
+            fileReader = new FileReader(args[0]);
+            Scanner lexer = new Scanner(fileReader);
+            System.out.println("TOKENS:");
+            int token;
+            while ((token = lexer.yylex()) != -1) {
+                // O própio arquivo flex lida com os prints
+            }
+            fileReader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

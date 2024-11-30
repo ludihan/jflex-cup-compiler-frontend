@@ -1,6 +1,6 @@
 # Build
 ## Linux / BSD / MacOS / Unix:
-use any posix shell:
+use any shell:
 ```sh
 sh build.sh build && sh build.sh run
 ```

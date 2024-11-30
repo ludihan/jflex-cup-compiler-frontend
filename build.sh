@@ -7,7 +7,7 @@ CUP="lib/java-cup-11b.jar"
 LIBS="build:lib/java-cup-11b.jar:lib/java-cup-11b-runtime.jar:lib/jflex-full-1.9.1.jar"
 
 if [ -z "$1" ]; then
-    echo "execute 'sh build.sh' com os argumentos build, clean ou run"
+    echo "build.sh accepts arguments 'build', 'clean' and 'run'"
 fi
 
 if [ "$1" = "build" ]; then

@@ -1,14 +1,5 @@
-# How to execute the build script:
-
-## Linux / BSD / macOS / Unix:
-Use any shell.
-
-## Windows:
-Use bash (included with git for windows).
-
-# How to use it:
-Execute the script by providing an argument:
-
+# How to use the build script :
+Run the script with a posix shell (like bash) providing an argument:
 ```sh
 sh build.sh <argument>
 ```

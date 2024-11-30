@@ -1,12 +1,12 @@
-# How to Execute the Build Script "script.sh"
+# How to execute the build script:
 
 ## Linux / BSD / macOS / Unix:
 Use any shell.
 
 ## Windows:
-Use Bash (included with Git for Windows).
+Use bash (included with git for windows).
 
-# How to Use It:
+# How to use it:
 Execute the script by providing an argument:
 
 ```sh

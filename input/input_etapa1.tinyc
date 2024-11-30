@@ -1,7 +1,11 @@
 int main() {
+    int a = 1002;
+    //loop maneiro
     for (int i = 0; i < 10; i++) {
         print(i * 2 + 4 - 1 / 2.2);
-
+        a = i * 1002;
     }
+
+    /* return super */
     return 0;
 }

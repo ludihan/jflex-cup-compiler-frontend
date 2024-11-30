@@ -11,6 +11,7 @@ public class Etapa1 {
             while ((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
             }
+            System.out.println("");
             bufferedReader.close();
 
             fileReader = new FileReader(args[0]);

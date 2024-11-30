@@ -1,11 +1,11 @@
 import java.io.*;
 
-public class Main {
+public class Example {
     public static void main(String[] args) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            scanner scanner = new scanner(reader);
-            parser parser = new parser(scanner);
+            Scanner scanner = new Scanner(reader);
+            Parser parser = new Parser(scanner);
 
             System.out.println("Enter expressions (end with semicolon ';'):");
 

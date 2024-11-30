@@ -2,8 +2,8 @@ import java_cup.runtime.*;
 import java.io.*;
 
 parser code {:
-    scanner s;
-    parser(scanner s){ this.s=s; }
+    Scanner s;
+    Parser (Scanner s){ this.s=s; }
 :}
 
 scan with {: return s.next_token(); :};

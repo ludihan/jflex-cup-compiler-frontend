@@ -1,11 +1,11 @@
 # Build
 ## Linux / BSD / MacOS / Unix:
-inside a posix shell type:
+use any posix shell:
 ```sh
 sh build.sh build && sh build.sh run
 ```
 ## Windows:
-inside git bash type:
+use bash (comes with git on windows):
 ```sh
 sh build.sh build && sh build.sh run
 ```

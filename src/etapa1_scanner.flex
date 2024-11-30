@@ -2,12 +2,16 @@
 
 %class Scanner
 %unicode
+%cup
+%line
+%column
 
 LineTerminator = \r|\n|\r\n
 Whitespace = {LineTerminator} | [ \t\f]
 DIGIT = [1-9] | [1-9] [0-9]+
-Identifier = [:jletter:] [:jletterdigit:]*
-
+Identifier =  [a-zA-Z_][a-zA-Z0-9_]*
+IntegerLiteral = [1-9][0-9]*
+FloatLiteral = {IntegerLiteral} "." [0-9]*
 
 %%
 
@@ -30,4 +34,3 @@ Identifier = [:jletter:] [:jletterdigit:]*
     .                { System.err.println("Illegal character: " + yytext()); }
 }
 
-<<EOF>> { return new Symbol( Sym.EOF ); }

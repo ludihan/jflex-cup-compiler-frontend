@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class Main {
+public class Etapa1 {
     public static void main(String[] args) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

@@ -18,7 +18,8 @@ StringLiteral     = \"([^\"\\\n\r]|\\.)*\"
 MultiLineComment  = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 SingleLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-Type              = "string" | "float" | "int" | "void"
+TypeFunc              = TypeVar | "void"
+TypeVar               = "string" | "float" | "int"
 
 %%
 
@@ -28,7 +29,8 @@ Type              = "string" | "float" | "int" | "void"
 "for"               { return new Symbol(sym.FOR); }
 "return"            { return new Symbol(sym.RETURN); }
 
-{Type}              { return new Symbol(sym.TYPE, yytext()); }
+{TypeFunc}          { return new Symbol(sym.TYPEFUNC, yytext()); }
+{TypeVar}           { return new Symbol(sym.TYPEVAR, yytext()); }
 
 {Identifier}        { return new Symbol(sym.IDENT, yytext()); }
 

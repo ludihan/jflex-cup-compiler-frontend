@@ -16,7 +16,8 @@ StringLiteral     = \"([^\"\\\n\r]|\\.)*\"
 MultiLineComment  = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 SingleLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-Type              = "string" | "float" | "int" | "void"
+TypeFunc              = TypeVar | "void"
+TypeVar               = "string" | "float" | "int"
 
 %%
 
@@ -26,7 +27,8 @@ Type              = "string" | "float" | "int" | "void"
 "for"               { System.out.println("FOR:       " + yytext()); }
 "return"            { System.out.println("RETURN:    " + yytext()); }
 
-{Type}              { System.out.println("TYPE:      " + yytext()); }
+{TypeFunc}          { System.out.println("TYPEFUNC   " + yytext()); }
+{TypeVar}           { System.out.println("TYPEVAR    " + ytext()); }
 
 {Identifier}        { System.out.println("IDENT:     " + yytext()); }
 

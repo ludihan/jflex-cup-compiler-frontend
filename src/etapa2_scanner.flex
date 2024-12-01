@@ -18,52 +18,53 @@ StringLiteral     = \"([^\"\\\n\r]|\\.)*\"
 MultiLineComment  = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 SingleLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-TypeFunc              = TypeVar | "void"
-TypeVar               = "string" | "float" | "int"
+Type               = "string" | "float" | "int" | "bool"
 
 %%
 
-"if"                { return new Symbol(sym.IF); }
-"else"              { return new Symbol(sym.ELSE); }
-"while"             { return new Symbol(sym.WHILE); }
-"for"               { return new Symbol(sym.FOR); }
-"return"            { return new Symbol(sym.RETURN); }
+"if"                { return new Symbol(sym.IF, yytext()); }
+"else"              { return new Symbol(sym.ELSE, yytext()); }
+"while"             { return new Symbol(sym.WHILE, yytext()); }
+"for"               { return new Symbol(sym.FOR, yytext()); }
+"return"            { return new Symbol(sym.RETURN, yytext()); }
 
-{TypeFunc}          { return new Symbol(sym.TYPEFUNC, yytext()); }
-{TypeVar}           { return new Symbol(sym.TYPEVAR, yytext()); }
+{Type}              { return new Symbol(sym.TYPE, yytext()); }
 
 {Identifier}        { return new Symbol(sym.IDENT, yytext()); }
 
-{IntegerLiteral}    { return new Symbol(sym.INT, Integer.parseInt(yytext())); }
-{FloatLiteral}      { return new Symbol(sym.FLOAT, Float.parseFloat(yytext())); }
+{IntegerLiteral}    { return new Symbol(sym.INT, yytext()); }
+{FloatLiteral}      { return new Symbol(sym.FLOAT, yytext()); }
 {StringLiteral}     { return new Symbol(sym.STRING, yytext()); }
 
-"+"                 { return new Symbol(sym.PLUS); }
-"-"                 { return new Symbol(sym.MINUS); }
-"*"                 { return new Symbol(sym.TIMES); }
-"/"                 { return new Symbol(sym.DIV); }
+"+"                 { return new Symbol(sym.PLUS, yytext()); }
+"-"                 { return new Symbol(sym.MINUS, yytext()); }
+"*"                 { return new Symbol(sym.TIMES, yytext()); }
+"/"                 { return new Symbol(sym.DIV, yytext()); }
 
-"<"                 { return new Symbol(sym.LT); }
-">"                 { return new Symbol(sym.GT); }
-"<="                { return new Symbol(sym.LTEQ); }
-">="                { return new Symbol(sym.GTEQ); }
+"<"                 { return new Symbol(sym.LT, yytext()); }
+">"                 { return new Symbol(sym.GT, yytext()); }
+"<="                { return new Symbol(sym.LTEQ, yytext()); }
+">="                { return new Symbol(sym.GTEQ, yytext()); }
 
-"="                 { return new Symbol(sym.ASSIGN); }
+"="                 { return new Symbol(sym.ASSIGN, yytext()); }
 
-"=="                { return new Symbol(sym.EQ); }
-"!="                { return new Symbol(sym.NEQ); }
+"=="                { return new Symbol(sym.EQ, yytext()); }
+"!="                { return new Symbol(sym.NEQ, yytext()); }
 
-"!"                 { return new Symbol(sym.NOT); }
+"!"                 { return new Symbol(sym.NOT, yytext()); }
 
-"++"                { return new Symbol(sym.INC); }
-"--"                { return new Symbol(sym.DEC); }
+"++"                { return new Symbol(sym.INC, yytext()); }
+"--"                { return new Symbol(sym.DEC, yytext()); }
 
-"("                 { return new Symbol(sym.LPAREN); }
-")"                 { return new Symbol(sym.RPAREN); }
-";"                 { return new Symbol(sym.SEMI); }
-","                 { return new Symbol(sym.COMMA); }
-"{"                 { return new Symbol(sym.LBRACE); }
-"}"                 { return new Symbol(sym.RBRACE); }
+"("                 { return new Symbol(sym.LPAREN, yytext()); }
+")"                 { return new Symbol(sym.RPAREN, yytext()); }
+";"                 { return new Symbol(sym.SEMI, yytext()); }
+","                 { return new Symbol(sym.COMMA, yytext()); }
+"{"                 { return new Symbol(sym.LBRACE, yytext()); }
+"}"                 { return new Symbol(sym.RBRACE, yytext()); }
+
+"false"             { return new Symbol(sym.FALSE, yytext()); }
+"true"              { return new Symbol(sym.TRUE, yytext()); }
 
 {MultiLineComment}  { return new Symbol(sym.MLCOMMENT, yytext()); }
 {SingleLineComment} { return new Symbol(sym.SLCOMMENT, yytext()); }

@@ -20,40 +20,62 @@ parser code {:
 scan with {: return s.next_token(); :};
 
 /* Terminals (tokens returned by the scanner). */
-terminal            IF, ELSE, WHILE, FOR, RETURN, TYPEFUNC, TYPEVAR, IDENT, INT, FLOAT, STRING;
-terminal            PLUS, MINUS, TIMES, DIV, LT, GT, LTEQ, GTEQ, ASSIGN, EQ, NEQ;
-terminal            NOT, INC, DEC, LPAREN, RPAREN, COLON, COMMA, LBRACE, RBRACE;
-terminal            MLCOMMENT, SLCOMMENT;
+terminal String     IF, ELSE, WHILE, FOR, RETURN, TYPE , IDENT, INT, FLOAT, STRING, FALSE, TRUE;
+terminal String     PLUS, MINUS, TIMES, DIV, LT, GT, LTEQ, GTEQ, ASSIGN, EQ, NEQ;
+terminal String     NOT, INC, DEC, LPAREN, RPAREN, SEMI, COMMA, LBRACE, RBRACE;
+terminal String     MLCOMMENT, SLCOMMENT;
 
 /* Non terminals */
-non terminal        program, program_element, comment, func_declar, var_declar, expr, if, while, for, block;
+non terminal String        program, stmt_list, comment, func_declar, var_declar, expr, if, while, for, stmt;
 
 /* Precedences */
 precedence left PLUS, MINUS;
 precedence left TIMES, DIV;
-precedence left ASSIGN;
+precedence left ASSIGN, LT, GT, LTEQ, GTEQ, EQ, NEQ;
 
 start with program;
 
-/* The grammar rules */
-program ::= program program_element 
-          | program_element:e        {: System.out.println(formatNode("PROGRAM", e));   :}
+program ::= program stmt:e    {: System.out.println(formatNode("STMT", e)); :}
+          | stmt:e            {: RESULT = formatNode("STMT", e);   :}
           ;
 
-program_element ::= comment:c   {: RESULT = formatNode("COMMENT", c); :}
-                  | func_declar:c {: RESULT = formatNode("FUNC_DECLAR", c); :}
-                  | var_declar:c  {: RESULT = formatNode("VAR_DECLAR", c); :}
-                  ;
+stmt ::= comment:c               {: RESULT = formatNode("COMMENT", c); :}
+       | func_declar:c           {: RESULT = formatNode("FUNC_DECLAR", c); :}
+       | var_declar:c            {: RESULT = formatNode("VAR_DECLAR", c); :}
+       | LBRACE stmt_list:c RBRACE {: RESULT = formatNode("BLOCK", c); :}
+       | expr:e SEMI:s                  {: RESULT = formatNode("EXPR", e, s); :}
+       ;
 
-comment  ::=
+stmt_list ::= stmt:s stmt_list:r  {: RESULT = formatNode("STMT_LIST", s, r); :}
+           | stmt:s              {: RESULT = s; :}
+           ;
 
-expr     ::= expr:e1 PLUS expr:e2  {: System.out.println(" ".repeat(depth) + "PLUS: " + e1 + " + " + e2); depth++ :}
-           | expr:e1 MINUS expr:e2 {: System.out.println(" ".repeat(depth) + "MINUS: " + e1 + " - " + e2); depth++ :}
-           | expr:e1 TIMES expr:e2 {: System.out.println(" ".repeat(depth) + "TIMES: " + e1 + " * " + e2); depth++ :}
-           | expr:e1 DIV expr:e2   {: System.out.println(" ".repeat(depth) + "DIV: " + e1 + " / " + e2); depth++ :}
-           | MINUS expr:e          {: System.out.println(" ".repeat(depth) + "NEG: " + e); depth++ :}
-           | LPAREN expr:e RPAREN  {: System.out.println(" ".repeat(depth) + "PAREN: " + e); depth++ :}
-           | INT:n                 {: System.out.println(" ".repeat(depth) + "INT: " + n); :}
-           | FLOAT:n               {: System.out.println(" ".repeat(depth) + "FLOAT: " + n); :}
-           | STRING:n              {: System.out.println(" ".repeat(depth) + "STRING: " + n); :}
+if ::= IF LPAREN expr:e RPAREN LBRACE stmt_list:l RBRACE {: RESULT = formatNode(""):}
+
+comment  ::= MLCOMMENT:c       {: RESULT = formatNode("MLCOMMENT", c); :}
+           | SLCOMMENT:c       {: RESULT = formatNode("SLCOMMMENT", c); :}
+           ;
+
+func_declar ::= TYPE:t IDENT:i LPAREN:l RPAREN:r stmt:b  {: RESULT = formatNode("FUNCTION", t, i, l, r, b); :} ;
+
+var_declar ::= TYPE:t IDENT:i SEMI:s {: RESULT = formatNode("VAR", t, i, s); :}
+             | TYPE:t IDENT:i ASSIGN:a expr:e SEMI:s {: RESULT = formatNode("VAR", t, i, a, e, s); :}
+               ;
+
+expr     ::= expr:e1 PLUS expr:e2      {: RESULT = formatNode("PLUS", e1, e2); :}
+           | expr:e1 MINUS expr:e2     {: RESULT = formatNode("MINUS", e1, e2); :}
+           | expr:e1 TIMES expr:e2     {: RESULT = formatNode("TIMES", e1, e2); :}
+           | expr:e1 DIV expr:e2       {: RESULT = formatNode("DIV", e1, e2); :}
+           | expr:e1 LT expr:e2        {: RESULT = formatNode("LT", e1, e2); :}
+           | expr:e1 GT expr:e2        {: RESULT = formatNode("GT", e1, e2); :}
+           | expr:e1 LTEQ expr:e2      {: RESULT = formatNode("LTEQ", e1, e2); :}
+           | expr:e1 GTEQ expr:e2      {: RESULT = formatNode("GTEQ", e1, e2); :}
+           | MINUS expr:e              {: RESULT = formatNode("MINUS", e); :}
+           | LPAREN expr:e RPAREN      {: RESULT = formatNode("PAREN", e); :}
+           | INT:n                     {: RESULT = formatNode("INT", n); :}
+           | FLOAT:n                   {: RESULT = formatNode("FLOAT", n); :}
+           | STRING:n                  {: RESULT = formatNode("STRING", n); :}
+           | FALSE:n                   {: RESULT = formatNode("FALSE", n); :}
+           | TRUE:n                    {: RESULT = formatNode("TRUE", n); :}
+           | IDENT:i LPAREN:l RPAREN:r {: RESULT = formatNode("FUNC_CALL", i, l, r); :}
            ;

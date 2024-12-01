@@ -16,8 +16,7 @@ StringLiteral     = \"([^\"\\\n\r]|\\.)*\"
 MultiLineComment  = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 SingleLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-TypeFunc              = TypeVar | "void"
-TypeVar               = "string" | "float" | "int"
+Type               = "string" | "float" | "int"
 
 %%
 
@@ -27,8 +26,7 @@ TypeVar               = "string" | "float" | "int"
 "for"               { System.out.println("FOR:       " + yytext()); }
 "return"            { System.out.println("RETURN:    " + yytext()); }
 
-{TypeFunc}          { System.out.println("TYPEFUNC   " + yytext()); }
-{TypeVar}           { System.out.println("TYPEVAR    " + ytext()); }
+{Type}              { System.out.println("TYPE       " + yytext()); }
 
 {Identifier}        { System.out.println("IDENT:     " + yytext()); }
 
@@ -58,7 +56,7 @@ TypeVar               = "string" | "float" | "int"
 
 "("                 { System.out.println("LPAREN:    " + yytext()); }
 ")"                 { System.out.println("RPAREN:    " + yytext()); }
-";"                 { System.out.println("SEMI:     " + yytext()); }
+";"                 { System.out.println("SEMI:      " + yytext()); }
 ","                 { System.out.println("COMMA:     " + yytext()); }
 "{"                 { System.out.println("LBRACE:    " + yytext()); }
 "}"                 { System.out.println("RBRACE:    " + yytext()); }

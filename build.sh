@@ -38,10 +38,15 @@ case "$1" in
         echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         build_parser "etapa2_parser.cup"
 
+        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build src/Etapa2.java
+        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build build/scanner.java
+        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build build/sym.java
+        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build build/parser.java
+        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 
 
         java -cp "$CLASSPATH" Etapa2 input/input.txt

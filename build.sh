@@ -35,10 +35,8 @@ case "$1" in
         java -cp "$CLASSPATH" scanner input/input.txt
         ;;
     "etapa2")
-        echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
         build_lexer "etapa2_scanner.flex"
 
-        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         build_parser "etapa2_parser.cup"
 
         compile_generated

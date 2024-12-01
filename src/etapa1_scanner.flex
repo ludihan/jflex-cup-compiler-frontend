@@ -24,7 +24,6 @@ Type              = "string" | "float" | "int" | "void"
 "else"              { System.out.println("ELSE:      " + yytext()); }
 "while"             { System.out.println("WHILE:     " + yytext()); }
 "for"               { System.out.println("FOR:       " + yytext()); }
-"do"                { System.out.println("DO:        " + yytext()); }
 "return"            { System.out.println("RETURN:    " + yytext()); }
 
 {Type}              { System.out.println("TYPE:      " + yytext()); }
@@ -35,9 +34,9 @@ Type              = "string" | "float" | "int" | "void"
 {FloatLiteral}      { System.out.println("FLOAT:     " + yytext()); }
 {StringLiteral}     { System.out.println("STRING:    " + yytext()); }
 
-"+"                 { System.out.println("PLUS:       " + yytext()); }
-"-"                 { System.out.println("MINUS:       " + yytext()); }
-"*"                 { System.out.println("TIMES:       " + yytext()); }
+"+"                 { System.out.println("PLUS:      " + yytext()); }
+"-"                 { System.out.println("MINUS:     " + yytext()); }
+"*"                 { System.out.println("TIMES:     " + yytext()); }
 "/"                 { System.out.println("DIV:       " + yytext()); }
 
 "<"                 { System.out.println("LT:        " + yytext()); }

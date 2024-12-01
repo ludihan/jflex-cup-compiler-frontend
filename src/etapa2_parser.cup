@@ -8,7 +8,6 @@ parser code {:
 :}
 
 /* define how to connect to the scanner! */
-init with {: s.init(); :};
 scan with {: return s.next_token(); :};
 
 /* Terminals (tokens returned by the scanner). */
@@ -26,12 +25,14 @@ precedence left TIMES, DIV;
 precedence left ASSIGN;
 
 /* The grammar rules */
-expr      ::= expr:e1 PLUS  expr:e2         {: RESULT = e1+e2;       :}
-             | expr:e1 MINUS expr:e2        {: RESULT = e1-e2;       :}
-             | expr:e1 TIMES expr:e2        {: RESULT = e1*e2;       :}
-             | MINUS expr:e                 {: RESULT = -e;          :}
-       | LPAREN expr:e RPAREN	         {: RESULT = e;           :}
-       | INT:n	                     {: RESULT = n;           :}
-       | FLOAT:n	                     {: RESULT = n;           :}
-       | STRING:n	                     {: RESULT = n;           :}
-             ;
+initial
+expr     ::= expr:e1 PLUS expr:e2          {: System.out.println(" ".repeat(depth) + "PLUS: " + e1 + " + " + e2); depth++; depth--; :}
+           | expr:e1 MINUS expr:e2         {: System.out.println(" ".repeat(depth) + "MINUS: " + e1 + " - " + e2); depth++; depth--; :}
+           | expr:e1 TIMES expr:e2         {: System.out.println(" ".repeat(depth) + "TIMES: " + e1 + " * " + e2); depth++; depth--; :}
+           | expr:e1 DIV expr:e2           {: System.out.println(" ".repeat(depth) + "DIV: " + e1 + " / " + e2); depth++; depth--; :}
+           | MINUS expr:e                  {: System.out.println(" ".repeat(depth) + "NEG: " + e); depth++; depth--; :}
+           | LPAREN expr:e RPAREN          {: System.out.println(" ".repeat(depth) + "PAREN: " + e); depth++; depth--; :}
+           | INT:n                         {: System.out.println(" ".repeat(depth) + "INT: " + n); :}
+           | FLOAT:n                       {: System.out.println(" ".repeat(depth) + "FLOAT: " + n); :}
+           | STRING:n                      {: System.out.println(" ".repeat(depth) + "STRING: " + n); :}
+           ;

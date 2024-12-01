@@ -3,6 +3,7 @@ import java_cup.runtime.*;
 %%
 
 %cup
+%class scanner
 
 LineTerminator    = \r|\n|\r\n
 InputCharacter    = [^\r\n]
@@ -21,50 +22,49 @@ Type              = "string" | "float" | "int" | "void"
 
 %%
 
-"if"                { System.out.println("IF:        " + yytext()); }
-"else"              { System.out.println("ELSE:      " + yytext()); }
-"while"             { System.out.println("WHILE:     " + yytext()); }
-"for"               { System.out.println("FOR:       " + yytext()); }
-"do"                { System.out.println("DO:        " + yytext()); }
-"return"            { System.out.println("RETURN:    " + yytext()); }
+"if"                { return new Symbol(sym.IF); }
+"else"              { return new Symbol(sym.ELSE); }
+"while"             { return new Symbol(sym.WHILE); }
+"for"               { return new Symbol(sym.FOR); }
+"return"            { return new Symbol(sym.RETURN); }
 
-{Type}              { System.out.println("TYPE:      " + yytext()); }
+{Type}              { return new Symbol(sym.TYPE, yytext()); }
 
-{Identifier}        { System.out.println("IDENT:     " + yytext()); }
+{Identifier}        { return new Symbol(sym.IDENT, yytext()); }
 
-{IntegerLiteral}    { System.out.println("INT:       " + yytext()); }
-{FloatLiteral}      { System.out.println("FLOAT:     " + yytext()); }
-{StringLiteral}     { System.out.println("STRING:    " + yytext()); }
+{IntegerLiteral}    { return new Symbol(sym.INT, Integer.parseInt(yytext())); }
+{FloatLiteral}      { return new Symbol(sym.FLOAT, Float.parseFloat(yytext())); }
+{StringLiteral}     { return new Symbol(sym.STRING, yytext()); }
 
-"+"                 { System.out.println("PLUS:       " + yytext()); }
-"-"                 { System.out.println("MINUS:       " + yytext()); }
-"*"                 { System.out.println("TIMES:       " + yytext()); }
-"/"                 { System.out.println("DIV:       " + yytext()); }
+"+"                 { return new Symbol(sym.PLUS); }
+"-"                 { return new Symbol(sym.MINUS); }
+"*"                 { return new Symbol(sym.TIMES); }
+"/"                 { return new Symbol(sym.DIV); }
 
-"<"                 { System.out.println("LT:        " + yytext()); }
-">"                 { System.out.println("GT:        " + yytext()); }
-"<="                { System.out.println("LTEQ:      " + yytext()); }
-">="                { System.out.println("GTEQ:      " + yytext()); }
+"<"                 { return new Symbol(sym.LT); }
+">"                 { return new Symbol(sym.GT); }
+"<="                { return new Symbol(sym.LTEQ); }
+">="                { return new Symbol(sym.GTEQ); }
 
-"="                 { System.out.println("ASSIGN:    " + yytext()); }
+"="                 { return new Symbol(sym.ASSIGN); }
 
-"=="                { System.out.println("EQ:        " + yytext()); }
-"!="                { System.out.println("NEQ:       " + yytext()); }
+"=="                { return new Symbol(sym.EQ); }
+"!="                { return new Symbol(sym.NEQ); }
 
-"!"                 { System.out.println("NOT:       " + yytext()); }
+"!"                 { return new Symbol(sym.NOT); }
 
-"++"                { System.out.println("INC:       " + yytext()); }
-"--"                { System.out.println("DEC:       " + yytext()); }
+"++"                { return new Symbol(sym.INC); }
+"--"                { return new Symbol(sym.DEC); }
 
-"("                 { System.out.println("LPAREN:    " + yytext()); }
-")"                 { System.out.println("RPAREN:    " + yytext()); }
-";"                 { System.out.println("COLON:     " + yytext()); }
-","                 { System.out.println("COMMA:     " + yytext()); }
-"{"                 { System.out.println("LBRACE:    " + yytext()); }
-"}"                 { System.out.println("RBRACE:    " + yytext()); }
+"("                 { return new Symbol(sym.LPAREN); }
+")"                 { return new Symbol(sym.RPAREN); }
+";"                 { return new Symbol(sym.COLON); }
+","                 { return new Symbol(sym.COMMA); }
+"{"                 { return new Symbol(sym.LBRACE); }
+"}"                 { return new Symbol(sym.RBRACE); }
 
-{MultiLineComment}  { System.out.println("MLCOMMENT: " + yytext()); }
-{SingleLineComment} { System.out.println("SLCOMMENT: " + yytext()); }
+{MultiLineComment}  { return new Symbol(sym.MLCOMMENT, yytext()); }
+{SingleLineComment} { return new Symbol(sym.SLCOMMENT, yytext()); }
 
 {Whitespace}        { /* ignore */ }
 

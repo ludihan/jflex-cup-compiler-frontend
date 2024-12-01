@@ -5,34 +5,55 @@ parser code {:
     int depth = 0;
 
     parser(scanner s){ this.s=s; }
+
+    String formatNode(String label, String... children) {
+        StringBuilder result = new StringBuilder();
+        result.append(label).append("\n");
+        for (String child : children) {
+            result.append("  ").append(child.replace("\n", "\n  ")).append("\n");
+        }
+        return result.toString().stripTrailing();
+    }
 :}
 
 /* define how to connect to the scanner! */
 scan with {: return s.next_token(); :};
 
 /* Terminals (tokens returned by the scanner). */
-terminal            IF, ELSE, WHILE, FOR, RETURN, TYPE, IDENT, INT, FLOAT, STRING;
+terminal            IF, ELSE, WHILE, FOR, RETURN, TYPEFUNC, TYPEVAR, IDENT, INT, FLOAT, STRING;
 terminal            PLUS, MINUS, TIMES, DIV, LT, GT, LTEQ, GTEQ, ASSIGN, EQ, NEQ;
 terminal            NOT, INC, DEC, LPAREN, RPAREN, COLON, COMMA, LBRACE, RBRACE;
 terminal            MLCOMMENT, SLCOMMENT;
 
 /* Non terminals */
-non terminal        func_declar, var_declar, expr, comment, if, while, for, block;
+non terminal        program, program_element, comment, func_declar, var_declar, expr, if, while, for, block;
 
 /* Precedences */
 precedence left PLUS, MINUS;
 precedence left TIMES, DIV;
 precedence left ASSIGN;
 
+start with program;
+
 /* The grammar rules */
-initial
-expr     ::= expr:e1 PLUS expr:e2          {: System.out.println(" ".repeat(depth) + "PLUS: " + e1 + " + " + e2); depth++ :}
-           | expr:e1 MINUS expr:e2         {: System.out.println(" ".repeat(depth) + "MINUS: " + e1 + " - " + e2); depth++ :}
-           | expr:e1 TIMES expr:e2         {: System.out.println(" ".repeat(depth) + "TIMES: " + e1 + " * " + e2); depth++ :}
-           | expr:e1 DIV expr:e2           {: System.out.println(" ".repeat(depth) + "DIV: " + e1 + " / " + e2); depth++ :}
-           | MINUS expr:e                  {: System.out.println(" ".repeat(depth) + "NEG: " + e); depth++ :}
-           | LPAREN expr:e RPAREN          {: System.out.println(" ".repeat(depth) + "PAREN: " + e); depth++ :}
-           | INT:n                         {: System.out.println(" ".repeat(depth) + "INT: " + n); :}
-           | FLOAT:n                       {: System.out.println(" ".repeat(depth) + "FLOAT: " + n); :}
-           | STRING:n                      {: System.out.println(" ".repeat(depth) + "STRING: " + n); :}
+program ::= program program_element 
+          | program_element:e        {: System.out.println(formatNode("PROGRAM", e));   :}
+          ;
+
+program_element ::= comment:c   {: RESULT = formatNode("COMMENT", c); :}
+                  | func_declar:c {: RESULT = formatNode("FUNC_DECLAR", c); :}
+                  | var_declar:c  {: RESULT = formatNode("VAR_DECLAR", c); :}
+                  ;
+
+comment  ::=
+
+expr     ::= expr:e1 PLUS expr:e2  {: System.out.println(" ".repeat(depth) + "PLUS: " + e1 + " + " + e2); depth++ :}
+           | expr:e1 MINUS expr:e2 {: System.out.println(" ".repeat(depth) + "MINUS: " + e1 + " - " + e2); depth++ :}
+           | expr:e1 TIMES expr:e2 {: System.out.println(" ".repeat(depth) + "TIMES: " + e1 + " * " + e2); depth++ :}
+           | expr:e1 DIV expr:e2   {: System.out.println(" ".repeat(depth) + "DIV: " + e1 + " / " + e2); depth++ :}
+           | MINUS expr:e          {: System.out.println(" ".repeat(depth) + "NEG: " + e); depth++ :}
+           | LPAREN expr:e RPAREN  {: System.out.println(" ".repeat(depth) + "PAREN: " + e); depth++ :}
+           | INT:n                 {: System.out.println(" ".repeat(depth) + "INT: " + n); :}
+           | FLOAT:n               {: System.out.println(" ".repeat(depth) + "FLOAT: " + n); :}
+           | STRING:n              {: System.out.println(" ".repeat(depth) + "STRING: " + n); :}
            ;

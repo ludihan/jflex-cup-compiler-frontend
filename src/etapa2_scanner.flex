@@ -1,7 +1,8 @@
+import java_cup.runtime.*;
+
 %%
 
-%standalone
-%class scanner
+%cup
 
 LineTerminator    = \r|\n|\r\n
 InputCharacter    = [^\r\n]

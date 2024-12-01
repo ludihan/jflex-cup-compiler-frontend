@@ -1,0 +1,37 @@
+import java_cup.runtime.*;
+
+parser code {:
+    scanner s;
+    int depth = 0;
+
+    parser(scanner s){ this.s=s; }
+:}
+
+/* define how to connect to the scanner! */
+init with {: s.init(); :};
+scan with {: return s.next_token(); :};
+
+/* Terminals (tokens returned by the scanner). */
+terminal            IF, ELSE, WHILE, FOR, RETURN, TYPE, IDENT, INT, FLOAT, STRING;
+terminal            PLUS, MINUS, TIMES, DIV, LT, GT, LTEQ, GTEQ, ASSIGN, EQ, NEQ;
+terminal            NOT, INC, DEC, LPAREN, RPAREN, COLON, COMMA, LBRACE, RBRACE;
+terminal            MLCOMMENT, SLCOMMENT;
+
+/* Non terminals */
+non terminal        func_declar, var_declar, expr, comment, if, while, for, block;
+
+/* Precedences */
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV;
+precedence left ASSIGN;
+
+/* The grammar rules */
+expr      ::= expr:e1 PLUS  expr:e2         {: RESULT = e1+e2;       :}
+             | expr:e1 MINUS expr:e2        {: RESULT = e1-e2;       :}
+             | expr:e1 TIMES expr:e2        {: RESULT = e1*e2;       :}
+             | MINUS expr:e                 {: RESULT = -e;          :}
+       | LPAREN expr:e RPAREN	         {: RESULT = e;           :}
+       | INT:n	                     {: RESULT = n;           :}
+       | FLOAT:n	                     {: RESULT = n;           :}
+       | STRING:n	                     {: RESULT = n;           :}
+             ;

@@ -56,7 +56,7 @@ Type              = "string" | "float" | "int" | "void"
 
 "("                 { System.out.println("LPAREN:    " + yytext()); }
 ")"                 { System.out.println("RPAREN:    " + yytext()); }
-";"                 { System.out.println("COLON:     " + yytext()); }
+";"                 { System.out.println("SEMI:     " + yytext()); }
 ","                 { System.out.println("COMMA:     " + yytext()); }
 "{"                 { System.out.println("LBRACE:    " + yytext()); }
 "}"                 { System.out.println("RBRACE:    " + yytext()); }

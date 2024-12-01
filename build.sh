@@ -38,13 +38,13 @@ case "$1" in
         echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         build_parser "etapa2_parser.cup"
 
+        javac -cp "$CLASSPATH" -d build src/Etapa2.java
         javac -cp "$CLASSPATH" -d build build/scanner.java
         javac -cp "$CLASSPATH" -d build build/sym.java
         javac -cp "$CLASSPATH" -d build build/parser.java
 
 
-        javac -cp "$CLASSPATH" -d build src/Etapa2.java
-        java -cp "$CLASSPATH" Etapa2
+        java -cp "$CLASSPATH" Etapa2 input/input.txt
         ;;
     "etapa3")
         echo "nao feito"

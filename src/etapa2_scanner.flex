@@ -58,7 +58,7 @@ Type              = "string" | "float" | "int" | "void"
 
 "("                 { return new Symbol(sym.LPAREN); }
 ")"                 { return new Symbol(sym.RPAREN); }
-";"                 { return new Symbol(sym.COLON); }
+";"                 { return new Symbol(sym.SEMI); }
 ","                 { return new Symbol(sym.COMMA); }
 "{"                 { return new Symbol(sym.LBRACE); }
 "}"                 { return new Symbol(sym.RBRACE); }

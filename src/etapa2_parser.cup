@@ -26,12 +26,12 @@ precedence left ASSIGN;
 
 /* The grammar rules */
 initial
-expr     ::= expr:e1 PLUS expr:e2          {: System.out.println(" ".repeat(depth) + "PLUS: " + e1 + " + " + e2); depth++; depth--; :}
-           | expr:e1 MINUS expr:e2         {: System.out.println(" ".repeat(depth) + "MINUS: " + e1 + " - " + e2); depth++; depth--; :}
-           | expr:e1 TIMES expr:e2         {: System.out.println(" ".repeat(depth) + "TIMES: " + e1 + " * " + e2); depth++; depth--; :}
-           | expr:e1 DIV expr:e2           {: System.out.println(" ".repeat(depth) + "DIV: " + e1 + " / " + e2); depth++; depth--; :}
-           | MINUS expr:e                  {: System.out.println(" ".repeat(depth) + "NEG: " + e); depth++; depth--; :}
-           | LPAREN expr:e RPAREN          {: System.out.println(" ".repeat(depth) + "PAREN: " + e); depth++; depth--; :}
+expr     ::= expr:e1 PLUS expr:e2          {: System.out.println(" ".repeat(depth) + "PLUS: " + e1 + " + " + e2); depth++ :}
+           | expr:e1 MINUS expr:e2         {: System.out.println(" ".repeat(depth) + "MINUS: " + e1 + " - " + e2); depth++ :}
+           | expr:e1 TIMES expr:e2         {: System.out.println(" ".repeat(depth) + "TIMES: " + e1 + " * " + e2); depth++ :}
+           | expr:e1 DIV expr:e2           {: System.out.println(" ".repeat(depth) + "DIV: " + e1 + " / " + e2); depth++ :}
+           | MINUS expr:e                  {: System.out.println(" ".repeat(depth) + "NEG: " + e); depth++ :}
+           | LPAREN expr:e RPAREN          {: System.out.println(" ".repeat(depth) + "PAREN: " + e); depth++ :}
            | INT:n                         {: System.out.println(" ".repeat(depth) + "INT: " + n); :}
            | FLOAT:n                       {: System.out.println(" ".repeat(depth) + "FLOAT: " + n); :}
            | STRING:n                      {: System.out.println(" ".repeat(depth) + "STRING: " + n); :}

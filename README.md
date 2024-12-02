@@ -5,7 +5,6 @@ sh build.sh <argument>
 ```
 
 The argument can be one of the following:
-- example: Builds and runs an example
 - etapa1: Builds and runs first step
 - etapa2: Builds and runs second step
 - etapa3: Builds and runs third step

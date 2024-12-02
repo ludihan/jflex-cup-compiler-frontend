@@ -53,18 +53,12 @@ Type               = "string" | "float" | "int" | "bool"
 
 "!"                 { return new Symbol(sym.NOT, yytext()); }
 
-"++"                { return new Symbol(sym.INC, yytext()); }
-"--"                { return new Symbol(sym.DEC, yytext()); }
-
 "("                 { return new Symbol(sym.LPAREN, yytext()); }
 ")"                 { return new Symbol(sym.RPAREN, yytext()); }
 ";"                 { return new Symbol(sym.SEMI, yytext()); }
 ","                 { return new Symbol(sym.COMMA, yytext()); }
 "{"                 { return new Symbol(sym.LBRACE, yytext()); }
 "}"                 { return new Symbol(sym.RBRACE, yytext()); }
-
-"false"             { return new Symbol(sym.FALSE, yytext()); }
-"true"              { return new Symbol(sym.TRUE, yytext()); }
 
 {MultiLineComment}  { return new Symbol(sym.MLCOMMENT, yytext()); }
 {SingleLineComment} { return new Symbol(sym.SLCOMMENT, yytext()); }

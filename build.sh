@@ -28,31 +28,41 @@ case "$1" in
 
         javac -cp "$CLASSPATH" -d build build/scanner.java
 
-
+        echo "TOKENS:"
         java -cp "$CLASSPATH" scanner input/input.txt
         ;;
     "etapa2")
-        echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
         build_lexer "etapa2_scanner.flex"
 
-        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         build_parser "etapa2_parser.cup"
 
-        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build src/Etapa2.java
-        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build build/scanner.java
-        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build build/sym.java
-        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
         javac -cp "$CLASSPATH" -d build build/parser.java
-        echo BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 
-
+        echo "AST:"
         java -cp "$CLASSPATH" Etapa2 input/input.txt
         ;;
     "etapa3")
-        echo "nao feito"
+        build_lexer "etapa1_scanner.flex"
+
+        javac -cp "$CLASSPATH" -d build build/scanner.java
+
+        echo "TOKENS:"
+        java -cp "$CLASSPATH" scanner input/input.txt
+
+        build_lexer "etapa2_scanner.flex"
+
+        build_parser "etapa2_parser.cup"
+
+        javac -cp "$CLASSPATH" -d build src/Etapa2.java
+        javac -cp "$CLASSPATH" -d build build/scanner.java
+        javac -cp "$CLASSPATH" -d build build/sym.java
+        javac -cp "$CLASSPATH" -d build build/parser.java
+
+        echo "AST"
+        java -cp "$CLASSPATH" Etapa2 input/input.txt
         ;;
     "clean")
         echo "build dir deleted"

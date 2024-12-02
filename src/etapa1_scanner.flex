@@ -16,7 +16,7 @@ StringLiteral     = \"([^\"\\\n\r]|\\.)*\"
 MultiLineComment  = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 SingleLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-Type               = "string" | "float" | "int"
+Type               = "string" | "float" | "int" | "bool"
 
 %%
 
@@ -50,9 +50,6 @@ Type               = "string" | "float" | "int"
 "!="                { System.out.println("NEQ:       " + yytext()); }
 
 "!"                 { System.out.println("NOT:       " + yytext()); }
-
-"++"                { System.out.println("INC:       " + yytext()); }
-"--"                { System.out.println("DEC:       " + yytext()); }
 
 "("                 { System.out.println("LPAREN:    " + yytext()); }
 ")"                 { System.out.println("RPAREN:    " + yytext()); }

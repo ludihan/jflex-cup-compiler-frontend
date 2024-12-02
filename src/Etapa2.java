@@ -6,7 +6,6 @@ public class Etapa2 {
             scanner scanner = new scanner(new FileReader(args[0]));
             parser parser = new parser(scanner);
 
-
             parser.parse();
         } catch (Exception e) {
             e.printStackTrace();

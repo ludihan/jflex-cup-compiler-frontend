@@ -29,9 +29,10 @@ terminal String     MLCOMMENT, SLCOMMENT;
 non terminal String        initial, program, comment, func_declar, var_declar, expr, if, while, for, stmt;
 
 /* Precedences */
-precedence left PLUS, MINUS;
+precedence right ASSIGN;
 precedence left TIMES, DIV;
-precedence left ASSIGN, LT, GT, LTEQ, GTEQ, EQ, NEQ, COMMA, ELSE, SEMI, LPAREN;
+precedence left PLUS, MINUS;
+precedence left LT, GT, LTEQ, GTEQ, EQ, NEQ, COMMA, ELSE, SEMI, LPAREN;
 
 start with initial;
 
@@ -55,21 +56,25 @@ stmt ::= comment:c                 {: RESULT = formatNode("COMMENT", c); :}
 
 
 if ::= IF LPAREN:lp expr:e RPAREN:rp stmt:l                  {: RESULT = formatNode("IF", lp, e, rp, l);:}
-     | IF LPAREN:lp expr:e RPAREN:rp stmt:l1 ELSE:el stmt:l2 {: RESULT = formatNode("IF", lp, e, rp, l1, el, l2);:};
+     | IF LPAREN:lp expr:e RPAREN:rp stmt:l1 ELSE:el stmt:l2 {: RESULT = formatNode("IF", lp, e, rp, l1, el, l2);:}
+     ;
 
-for ::= FOR:f LPAREN:lp stmt:e1 stmt:e2 expr:e3 RPAREN:rp stmt:st {: RESULT = formatNode("FOR", f, lp, e1, e2, e3, rp, st);:};
+for ::= FOR:f LPAREN:lp stmt:e1 stmt:e2 expr:e3 RPAREN:rp stmt:st {: RESULT = formatNode("FOR", f, lp, e1, e2, e3, rp, st);:}
+      ;
 
-while ::= WHILE:w LPAREN:lp expr:e RPAREN:rp stmt:st {: RESULT = formatNode("WHILE", w, lp, e, rp, st);:};
+while ::= WHILE:w LPAREN:lp expr:e RPAREN:rp stmt:st {: RESULT = formatNode("WHILE", w, lp, e, rp, st);:}
+        ;
 
 comment  ::= MLCOMMENT:c {: RESULT = formatNode("MLCOMMENT", c); :}
            | SLCOMMENT:c {: RESULT = formatNode("SLCOMMMENT", c); :}
            ;
 
-func_declar ::= TYPE:t IDENT:i LPAREN:l RPAREN:r stmt:b  {: RESULT = formatNode("FUNCTION", t, i, l, r, b); :} ;
+func_declar ::= TYPE:t IDENT:i LPAREN:l RPAREN:r stmt:b  {: RESULT = formatNode("FUNCTION", t, i, l, r, b); :}
+              ;
 
 var_declar ::= TYPE:t IDENT:i                 {: RESULT = formatNode("VAR", t, i); :}
              | TYPE:t IDENT:i ASSIGN:a expr:e {: RESULT = formatNode("VAR", t, i, a, e); :}
-               ;
+             ;
 
 expr     ::= expr:e1 PLUS expr:e2      {: RESULT = formatNode("PLUS", e1, e2); :}
            | expr:e1 MINUS expr:e2     {: RESULT = formatNode("MINUS", e1, e2); :}
@@ -81,6 +86,7 @@ expr     ::= expr:e1 PLUS expr:e2      {: RESULT = formatNode("PLUS", e1, e2); :
            | expr:e1 GTEQ expr:e2      {: RESULT = formatNode("GTEQ", e1, e2); :}
            | expr:e1 EQ expr:e2        {: RESULT = formatNode("EQ", e1, e2); :}
            | expr:e1 NEQ expr:e2       {: RESULT = formatNode("NEQ", e1, e2); :}
+           | IDENT:i ASSIGN expr:e     {: RESULT = formatNode("ASSIGN", i, e); :}
            | NOT expr:e                {: RESULT = formatNode("NOT", e); :}
            | MINUS expr:e              {: RESULT = formatNode("MINUS", e); :}
            | LPAREN expr:e RPAREN      {: RESULT = formatNode("PAREN", e); :}
@@ -88,5 +94,6 @@ expr     ::= expr:e1 PLUS expr:e2      {: RESULT = formatNode("PLUS", e1, e2); :
            | FLOAT:n                   {: RESULT = formatNode("FLOAT", n); :}
            | STRING:n                  {: RESULT = formatNode("STRING", n); :}
            | IDENT:i LPAREN:l RPAREN:r {: RESULT = formatNode("FUNC_CALL", i, l, r); :}
+           | IDENT:i                   {: RESULT = formatNode("IDENT", i); :}
            | expr:e1 COMMA expr:e2{: RESULT = formatNode("COMMA", e1, e2); :}
            ;

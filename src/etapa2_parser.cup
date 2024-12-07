@@ -29,10 +29,11 @@ terminal String     MLCOMMENT, SLCOMMENT;
 non terminal String        initial, program, comment, func_declar, var_declar, expr, if, while, for, stmt;
 
 /* Precedences */
+precedence left LT, GT, LTEQ, GTEQ, EQ, NEQ, COMMA, ELSE, SEMI, LPAREN;
 precedence right ASSIGN;
 precedence left TIMES, DIV;
-precedence left PLUS, MINUS;
-precedence left LT, GT, LTEQ, GTEQ, EQ, NEQ, COMMA, ELSE, SEMI, LPAREN;
+precedence left  MINUS;
+precedence right PLUS;
 
 start with initial;
 
@@ -59,11 +60,12 @@ if ::= IF LPAREN:lp expr:e RPAREN:rp stmt:l                  {: RESULT = formatN
      | IF LPAREN:lp expr:e RPAREN:rp stmt:l1 ELSE:el stmt:l2 {: RESULT = formatNode("IF", lp, e, rp, l1, el, l2);:}
      ;
 
-for ::= FOR:f LPAREN:lp stmt:e1 stmt:e2 expr:e3 RPAREN:rp stmt:st {: RESULT = formatNode("FOR", f, lp, e1, e2, e3, rp, st);:}
-      ;
-
 while ::= WHILE:w LPAREN:lp expr:e RPAREN:rp stmt:st {: RESULT = formatNode("WHILE", w, lp, e, rp, st);:}
         ;
+for ::= FOR:f LPAREN:lp expr:e RPAREN:rp stmt:st
+     {: RESULT = formatNode("FOR", f, lp, e,  rp, st); :}
+     ;
+
 
 comment  ::= MLCOMMENT:c {: RESULT = formatNode("MLCOMMENT", c); :}
            | SLCOMMENT:c {: RESULT = formatNode("SLCOMMMENT", c); :}
@@ -95,5 +97,6 @@ expr     ::= expr:e1 PLUS expr:e2      {: RESULT = formatNode("PLUS", e1, e2); :
            | STRING:n                  {: RESULT = formatNode("STRING", n); :}
            | IDENT:i LPAREN:l RPAREN:r {: RESULT = formatNode("FUNC_CALL", i, l, r); :}
            | IDENT:i                   {: RESULT = formatNode("IDENT", i); :}
-           | expr:e1 COMMA expr:e2{: RESULT = formatNode("COMMA", e1, e2); :}
+           | expr:e1 SEMI expr:e2 SEMI expr:e3 {: RESULT = formatNode("SEMI", e1, e2, e3); :}
+           | expr:e1 PLUS               {: RESULT = formatNode("PLUS", e1); :}
            ;
